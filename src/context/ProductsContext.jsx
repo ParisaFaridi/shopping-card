@@ -29,5 +29,9 @@ function ProductsProvider({children}) {
 const useProducts=()=>{
   return useContext(ProductsContext)
 }
+const getProductById=(id)=>{
+  const products = useContext(ProductsContext)
+  return products.find(item => item.id===id)
+}
 export default ProductsProvider
-export {useProducts}
+export {useProducts,getProductById}
