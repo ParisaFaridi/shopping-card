@@ -4,12 +4,14 @@ import CartPage from './pages/CartPage'
 import ProductPage from './pages/ProductPage'
 import NoMatch from './pages/NoMatch'
 import ProductsProvider from './context/ProductsContext'
+import CartProvider from './context/CartContext'
 
 
 function App() {
 
   return (
     <>
+    <CartProvider>
     <ProductsProvider>
       <Routes>
         <Route index  element={<Navigate to="/products" replace/>}/>
@@ -19,6 +21,7 @@ function App() {
         <Route path="*"  element={<NoMatch />} />
       </Routes>
     </ProductsProvider>
+    </CartProvider>
     </>
   )
 }
