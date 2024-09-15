@@ -1,5 +1,6 @@
-import {createContext, useContext, useReducer } from "react"
+import {createContext, useContext, useEffect, useReducer } from "react"
 import { sumProducts } from "../helpers/Helper";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 const CartContext = createContext();
 
 const initialValue ={
@@ -51,7 +52,13 @@ const reducer =(state,action)=>{
 }
 
 function CartProvider({children}) {
-    const [state,dispatch]= useReducer(reducer,initialValue)
+  
+  const [storedCart, setStoredCart] = useLocalStorage("cart", initialValue);
+  const [state, dispatch] = useReducer(reducer, storedCart);
+
+  useEffect(() => {
+    setStoredCart(state);
+  }, [state, setStoredCart]);
 
   return (
     <CartContext.Provider value={{state,dispatch}}>
