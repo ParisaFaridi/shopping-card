@@ -1,26 +1,34 @@
-import { MdDeleteOutline } from "react-icons/md"
-import { shortenText } from "../helpers/Helper"
-import styles from "./BasketCard.module.css"
+import { MdDeleteOutline } from "react-icons/md";
+import { shortenText } from "../helpers/Helper";
+import styles from "./BasketCard.module.css";
+import { useDispatch} from "react-redux";
+import {
+  decrease,
+  deleteItem,
+  increase,
+} from "../features/cart/cartSlice";
 
-function BasketCard({data,clickHandler}) {
-    
+function BasketCard({ data}) {
+  const dispatch = useDispatch();
+
   return (
     <div className={styles.card}>
-        <img src={data.image} alt={data.title}/>
-        <p>{shortenText(data.title)}</p>
-        <div className={styles.actions}>
-            {data.quantity===1 && (
-                <button onClick={()=>clickHandler("DELETE_ITEM",data)}>
-                    <MdDeleteOutline />
-                </button>
-            )}
-            {data.quantity > 1 && <button onClick={()=>clickHandler("DECREASE",data)}>-</button>}
-            <span>{data.quantity}</span>
-            <button onClick={()=>clickHandler("INCREASE",data)}>+</button>
-        </div>
-        
+      <img src={data.image} alt={data.title} />
+      <p>{shortenText(data.title)}</p>
+      <div className={styles.actions}>
+        {data.quantity === 1 && (
+          <button onClick={() => dispatch(deleteItem(data))}>
+            <MdDeleteOutline />
+          </button>
+        )}
+        {data.quantity > 1 && (
+          <button onClick={() => dispatch(decrease(data))}>-</button>
+        )}
+        <span>{data.quantity}</span>
+        <button onClick={() => dispatch(increase(data))}>+</button>
+      </div>
     </div>
-  )
+  );
 }
 
-export default BasketCard
+export default BasketCard;
